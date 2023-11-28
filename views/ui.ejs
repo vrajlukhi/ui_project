@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="ui"></div>
+</body>
+<script>
+    fetch("/data")
+    .then((res)=> res.json())
+    .then((data) =>{
+        data.map((ele) =>{
+            console.log(ele._id)
+            let h1 = document.createElement("h1")
+            h1.innerHTML = ele.title
+            let h4 = document.createElement("h4")
+            h4.innerHTML = "pending"
+            h4.setAttribute("id" , "update")
+            let update = document.createElement("button")
+            update.innerHTML = "Update"
+            update.addEventListener("click" , () =>{
+                document.getElementById("update").innerHTML = "Done"
+            })
+            let del = document.createElement("button")
+            del.innerHTML = "Delete"
+            del.addEventListener("click" , () =>{
+                fetch(`/delete/${ele._id}`,{
+                    method : "DELETE"
+                })
+            })
+            let div = document.createElement("div")
+            div.append(h1 , h4 , update , del)
+            document.getElementById("ui").append(div)
+        })
+    })
+</script>
+</html>
